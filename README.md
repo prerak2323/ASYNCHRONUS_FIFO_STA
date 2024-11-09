@@ -45,6 +45,8 @@ The lower switching activity also helps reduce the likelihood of metastability, 
 
 
 <img src="3.jpg" alt="Sample Image" width="800" />
+<img src="WAVEFORM.png" alt="Sample Image" width="800" />
+
 
 # STATIC TIMING ANALYSIS
 
