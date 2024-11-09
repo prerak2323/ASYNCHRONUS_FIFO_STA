@@ -8,6 +8,9 @@ While there are multiple approaches to designing asynchronous FIFOs, many of the
 
 This project provides a complete asynchronous FIFO design, implemented using synthesizable Verilog RTL code. Verification is performed with Yosys and the FreePDK standard cell library.
 
+<img src="5.png" alt="Sample Image" width="400" />
+
+
 ## Asynchronous FIFO Operation
 In a synchronous FIFO, the write and read pointers are generated from the same clock. However, in an asynchronous FIFO, the write pointer is aligned with the write clock domain, while the read pointer is aligned with the read clock domain. As a result, domain crossing is required to determine FIFO full and empty conditions. This leads to metastability in the design. To address this metastability, two-flip-flop or three-flip-flop synchronisers can be used to pass the write and read pointers. For this explanation, we will use two-flip-flop synchronisers. Note that a single “2 FF synchroniser” can only resolve metastability for one bit. Therefore, depending on the write and read pointers, multiple 2 FF synchronisers are necessary.
 
