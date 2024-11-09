@@ -139,3 +139,60 @@ The min path delay for hold checks in CLK1 and CLK2 domains is 0.10 ns, meaning 
 ### Since this frequency is significantly higher than typical operating conditions, it suggests the design is well within timing margins and should operate safely at lower practical clock frequencies.These max and min frequencies provide guidelines on safe operational frequencies for the write and read operations in the FIFO.
 
 
+# Module Overview
+
+### 1. **DFF (D Flip-Flop)**
+- **Function**: Simple D flip-flop module for sequential storage.
+- **Chip Area**: 6.384
+- **Sequential Element Usage**: 70.83%
+
+### 2. **async_fifo (Asynchronous FIFO - Main Module)**
+- **Function**: Main FIFO module that handles data transfer between different clock domains.
+- **Chip Area**: 1369.102
+- **Description**: Includes five submodules for managing asynchronous clock domains, such as `cdc` for synchronization and `fifo_memory` for data storage. The top module occupies the majority of the chip area.
+
+### 3. **b2g (Binary-to-Gray Code Conversion)**
+- **Function**: Converts binary data to Gray code for synchronization.
+- **Chip Area**: 6.384
+- **Sequential Element Usage**: None
+
+### 4. **cdc (Clock Domain Crossing)**
+- **Function**: Manages data synchronization between asynchronous clock domains.
+- **Chip Area**: 55.860
+- **Sequential Element Usage**: 80.95% (High sequential element usage)
+
+### 5. **fifo_memory**
+- **Function**: Memory storage for the FIFO.
+- **Chip Area**: 1.330
+- **Sequential Element Usage**: None
+
+### 6. **mux16to1_8bit (16-to-1 Multiplexer)**
+- **Function**: A multiplexer that selects one of the 16 inputs, each 8-bits wide.
+- **Chip Area**: 239.932
+- **Sequential Element Usage**: None
+- **Description**: High logic complexity without sequential elements.
+
+### 7. **register_bank (Register Storage Bank)**
+- **Function**: Stores multiple registers for FIFO management.
+- **Chip Area**: 22.876
+- **Description**: Consists of 128 DFF cells with high sequential density.
+- **Sequential Element Usage**: High
+
+### 8. **rptr_handler & wptr_handler (Read/Write Pointer Handlers)**
+- **Function**: Controls the read and write pointers for the FIFO.
+- **Chip Area**:
+  - `rptr_handler`: 82.194 (71.2% sequential)
+  - `wptr_handler`: 81.130 (72.13% sequential)
+
+## Design Hierarchy
+async_fifo
+│
+├── cdc (2 instances)
+├── fifo_memory
+│   └── register_bank
+│       ├── DFF (128 instances)
+│       └── mux16to1_8bit
+├── rptr_handler
+│   └── b2g (Binary-to-Gray converter)
+└── wptr_handler
+    └── b2g (Binary-to-Gray converter)
