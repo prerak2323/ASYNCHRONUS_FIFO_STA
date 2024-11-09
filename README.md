@@ -48,3 +48,94 @@ The lower switching activity also helps reduce the likelihood of metastability, 
 
 # STATIC TIMING ANALYSIS
 
+<p align="center">
+  <img src="SCH1.png" width="45%" alt="Placeholder 1">
+  <img src="SCH2.png" width="45%" alt="Placeholder 2">
+</p>
+
+
+
+This analysis covers both maximum and minimum path delays for each path, helping to determine timing constraints and frequency limits for each clock domain in the asynchronous FIFO design.
+
+## Key Observations and Analysis
+
+### Path 1: Asynchronous Path (wrst_n to wrpthandler/41)
+- **Clock**: CLK1
+- **Type**: Asynchronous (recovery check against CLK1 rising edge)
+- **Data Arrival Time**: 5.00 ns
+- **Data Required Time**: 1000.05 ns
+- **Slack**: 995.05 ns (MET)
+- **Max Path Delay**: 5.00 ns
+
+This path shows a large positive slack of 995.05 ns, meaning there is no timing violation. The Max Path Delay for this path is 5.00 ns.
+
+### Path 2: Synchronous Path (w_en to wrpthandler/49)
+- **Clock**: CLK1
+- **Type**: Synchronous
+- **Data Arrival Time**: 5.41 ns
+- **Data Required Time**: 999.96 ns
+- **Slack**: 994.55 ns (MET)
+- **Max Path Delay**: 5.41 ns
+
+The slack here is also positive, indicating no timing issues. The Max Path Delay for this path is 5.41 ns.
+
+### Path 3: Cross-Domain Path (FIFO to data_out)
+- **Clock**: CLK1 to CLK2
+- **Type**: Asynchronous (crossing from CLK1 to CLK2)
+- **Data Arrival Time**: 1000.48 ns
+- **Data Required Time**: 1995.00 ns
+- **Slack**: 994.52 ns (MET)
+- **Max Path Delay**: 1000.48 ns
+
+This path crosses clock domains and shows a significant delay of 1000.48 ns. However, with a slack of 994.52 ns, there is still enough margin. The Max Path Delay for this cross-domain path is 1000.48 ns.
+
+## Minimum Path Delay (Recovery and Hold Checks)
+
+### Recovery Check (rrst_n to rptrhandler/45)
+- **Clock**: CLK2
+- **Data Arrival Time**: 5.00 ns
+- **Data Required Time**: 0.18 ns
+- **Slack**: 4.82 ns (MET)
+- **Min Path Delay**: 5.00 ns
+
+### Hold Check (syncA/34 to wrpthandler/49)
+- **Clock**: CLK1
+- **Data Arrival Time**: 0.10 ns
+- **Data Required Time**: 0.00 ns
+- **Slack**: 0.10 ns (MET)
+- **Min Path Delay**: 0.10 ns
+
+### Hold Check (syncB/34 to rptrhandler/55)
+- **Clock**: CLK2
+- **Data Arrival Time**: 0.10 ns
+- **Data Required Time**: 0.00 ns
+- **Slack**: 0.10 ns (MET)
+- **Min Path Delay**: 0.10 ns
+
+## Summary of Maximum and Minimum Path Delays
+
+### Max Path Delays
+- **Asynchronous recovery check** (wrst_n to wrpthandler/41): 5.00 ns
+- **Synchronous path** (w_en to wrpthandler/49): 5.41 ns
+- **Cross-domain path** (FIFO to data_out): 1000.48 ns
+
+### Min Path Delays
+- **Recovery check for rrst_n** (CLK2): 5.00 ns
+- **Hold check in CLK1** (syncA/34 to wrpthandler/49): 0.10 ns
+- **Hold check in CLK2** (syncB/34 to rptrhandler/55): 0.10 ns
+
+## Recommendations
+
+### Max Frequency
+Based on the max path delay in the CLK1 domain (5.41 ns), the maximum clock frequency for CLK1 is approximately:
+
+`Max Frequency_CLK1 = 1 / 5.41 ns ≈ 184.84 MHz`
+
+### Min Frequency
+The min path delay for hold checks in CLK1 and CLK2 domains is 0.10 ns, meaning the minimum frequency to ensure hold time constraints are met would be:
+
+`Min Frequency_CLK1 and CLK2 = 1 / 0.10 ns = 10 GHz`
+
+### Since this frequency is significantly higher than typical operating conditions, it suggests the design is well within timing margins and should operate safely at lower practical clock frequencies.These max and min frequencies provide guidelines on safe operational frequencies for the write and read operations in the FIFO.
+
+
