@@ -1,0 +1,68 @@
+source test.tcl
+Startpoint: raddr[3] (input port clocked by CLK)
+Endpoint: data_out[2] (output port clocked by CLK)
+Path Group: CLK
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock CLK (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   5.00    5.00 ^ input external delay
+   0.00    5.00 ^ raddr[3] (in)
+   0.01    5.01 v fifo/read_mux/_265_/ZN (NAND2_X1)
+   0.15    5.16 ^ fifo/read_mux/_270_/ZN (NOR3_X1)
+   0.03    5.19 v fifo/read_mux/_373_/ZN (OAI211_X1)
+   0.03    5.23 ^ fifo/read_mux/_374_/ZN (OAI211_X1)
+   0.02    5.24 v fifo/read_mux/_377_/ZN (AOI21_X1)
+   0.06    5.31 ^ fifo/read_mux/_378_/ZN (AOI211_X1)
+   0.02    5.33 v fifo/read_mux/_381_/ZN (OAI21_X1)
+   0.03    5.35 ^ fifo/read_mux/_382_/ZN (OAI211_X1)
+   0.02    5.37 v fifo/read_mux/_384_/ZN (AOI21_X1)
+   0.07    5.44 ^ fifo/read_mux/_385_/ZN (AOI211_X1)
+   0.02    5.46 v fifo/read_mux/_388_/ZN (OAI21_X1)
+   0.07    5.53 ^ fifo/read_mux/_390_/ZN (AOI221_X1)
+   0.01    5.54 v fifo/read_mux/_391_/ZN (AOI21_X1)
+   0.00    5.54 v data_out[2] (out)
+           5.54   data arrival time
+
+1000.00 1000.00   clock CLK (rise edge)
+   0.00 1000.00   clock network delay (ideal)
+   0.00 1000.00   clock reconvergence pessimism
+  -5.00  995.00   output external delay
+         995.00   data required time
+---------------------------------------------------------
+         995.00   data required time
+          -5.54   data arrival time
+---------------------------------------------------------
+         989.46   slack (MET)
+
+report_checks -path_delay min -format full
+Startpoint: fifo/reg_block[10].bit_block[4].dff_inst/_3_
+            (rising edge-triggered flip-flop clocked by CLK)
+Endpoint: fifo/reg_block[10].bit_block[4].dff_inst/_3_
+          (rising edge-triggered flip-flop clocked by CLK)
+Path Group: CLK
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock CLK (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ fifo/reg_block[10].bit_block[4].dff_inst/_3_/CK (DFF_X1)
+   0.09    0.09 ^ fifo/reg_block[10].bit_block[4].dff_inst/_3_/Q (DFF_X1)
+   0.03    0.12 ^ fifo/reg_block[10].bit_block[4].dff_inst/_2_/Z (MUX2_X1)
+   0.00    0.12 ^ fifo/reg_block[10].bit_block[4].dff_inst/_3_/D (DFF_X1)
+           0.12   data arrival time
+
+   0.00    0.00   clock CLK (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00   clock reconvergence pessimism
+           0.00 ^ fifo/reg_block[10].bit_block[4].dff_inst/_3_/CK (DFF_X1)
+   0.01    0.01   library hold time
+           0.01   data required time
+---------------------------------------------------------
+           0.01   data required time
+          -0.12   data arrival time
+---------------------------------------------------------
+           0.11   slack (MET)

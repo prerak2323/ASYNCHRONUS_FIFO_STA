@@ -1,0 +1,59 @@
+ report_checks
+Startpoint: wrst_n (input port clocked by CLK)
+Endpoint: _47_ (recovery check against rising-edge clock CLK)
+Path Group: asynchronous
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock CLK (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   5.00    5.00 ^ input external delay
+   0.00    5.00 ^ wrst_n (in)
+   0.00    5.00 ^ _47_/RN (DFFR_X1)
+           5.00   data arrival time
+
+1000.00 1000.00   clock CLK (rise edge)
+   0.00 1000.00   clock network delay (ideal)
+   0.00 1000.00   clock reconvergence pessimism
+        1000.00 ^ _47_/CK (DFFR_X1)
+   0.05 1000.05   library recovery time
+        1000.05   data required time
+---------------------------------------------------------
+        1000.05   data required time
+          -5.00   data arrival time
+---------------------------------------------------------
+         995.05   slack (MET)
+
+
+Startpoint: w_en (input port clocked by CLK)
+Endpoint: _47_ (rising edge-triggered flip-flop clocked by CLK)
+Path Group: CLK
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock CLK (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   5.00    5.00 ^ input external delay
+   0.00    5.00 ^ w_en (in)
+   0.07    5.07 ^ _26_/ZN (AND4_X1)
+   0.05    5.12 ^ _31_/ZN (XNOR2_X1)
+   0.06    5.18 ^ _38_/Z (XOR2_X1)
+   0.04    5.22 ^ _43_/ZN (XNOR2_X1)
+   0.02    5.24 v _44_/ZN (NAND2_X1)
+   0.07    5.31 ^ _46_/ZN (NOR4_X1)
+   0.00    5.31 ^ _47_/D (DFFR_X1)
+           5.31   data arrival time
+
+1000.00 1000.00   clock CLK (rise edge)
+   0.00 1000.00   clock network delay (ideal)
+   0.00 1000.00   clock reconvergence pessimism
+        1000.00 ^ _47_/CK (DFFR_X1)
+  -0.04  999.96   library setup time
+         999.96   data required time
+---------------------------------------------------------
+         999.96   data required time
+          -5.31   data arrival time
+---------------------------------------------------------
+         994.65   slack (MET)
